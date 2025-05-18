@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { IUser } from "@/types";
-import messageSchema from "./message.model";
+import { messageSchema } from "./message.model";
 
 const userSchema: Schema<IUser> = new Schema({
     username: {
@@ -35,7 +35,10 @@ const userSchema: Schema<IUser> = new Schema({
         type: Boolean,
         default: true,
     },
-    messages: [messageSchema],
+    messages: {
+        type: [messageSchema],
+        default: [],
+    },
 });
 
 const User =
