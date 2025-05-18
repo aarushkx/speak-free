@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         const user = await User.findOne({ username: decodedUsername });
 
         if (!user) {
-            return Response.json(
+            return NextResponse.json(
                 { success: false, message: "User not found" },
                 { status: 404 }
             );
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
         );
     } catch (error) {
         console.error("Error verifying user:", error);
-        return Response.json(
+        return NextResponse.json(
             { success: false, message: "Error verifying user" },
             { status: 500 }
         );
