@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
             verificationCode
         );
         if (!emailResponse.success) {
-            return Response.json(
+            return NextResponse.json(
                 {
                     success: false,
                     message: emailResponse.message,
