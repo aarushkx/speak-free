@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-type ConnectionObject = {
+type TConnectionObject = {
     isConnected?: number;
 };
 
-const connection: ConnectionObject = {};
+const connection: TConnectionObject = {};
 
 export const connectToDatabase = async (): Promise<void> => {
     if (connection.isConnected) {
