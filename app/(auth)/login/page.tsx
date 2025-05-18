@@ -2,12 +2,12 @@
 
 import React from "react";
 
-const LandingPage = () => {
+const LoginPage = () => {
     return (
         <div>
-            <h1>LandingPage</h1>
+            <h1>LoginPage</h1>
         </div>
     );
 };
 
-export default LandingPage;
+export default LoginPage;
