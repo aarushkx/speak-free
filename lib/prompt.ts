@@ -1,8 +1,8 @@
 export const SUGGESTION_PROMPT = `
-Generate exactly 3 unique, open-ended feedback suggestions for an anonymous social platform. Follow these rules:
+Generate exactly 4 unique, open-ended feedback suggestions for an anonymous social platform. Follow these rules:
 
 1. Formatting:
-   - Separate questions with "||" (Example: "Suggestion 1||Suggestion 2||Suggestion 3")
+   - Separate questions with "||" (Example: "Suggestion 1||Suggestion 2||Suggestion 3||Suggestion 4")
    - No numbering or bullet points
    - No additional explanations
 
@@ -18,8 +18,8 @@ Generate exactly 3 unique, open-ended feedback suggestions for an anonymous soci
    - Use simple, inclusive language
 
 Examples of GOOD suggestions:
-"You could be more effective by...||Your strength is how you...||When you [action], it helps because..."
+"You could be more effective by...||Your strength is how you...||When you [action], it helps because...||Something I like about you is..."
 
 Examples of BAD suggestions:
-"Are you vaccinated?||How much do you earn?||What's your political party?"
+"Are you vaccinated?||How much do you earn?||What's your political party?||You are dumb!"
 `;

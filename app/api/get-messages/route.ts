@@ -18,26 +18,26 @@ export async function GET(request: NextRequest) {
             { status: 401 }
         );
     }
-    const userId = new mongoose.Types.ObjectId(user._id);
-    try {
-        const user = await User.aggregate([
-            { $match: { _id: userId } },
-            { $unwind: "$messages" },
-            { $sort: { "messages.createdAt": -1 } },
-            { $group: { _id: "$_id", messages: { $push: "$messages" } } },
-        ]).exec();
 
-        if (!user || user.length === 0) {
+    try {
+        const userId = new mongoose.Types.ObjectId(user._id);
+        const foundUser = await User.findById(userId).select("messages").lean();
+
+        if (!foundUser) {
             return NextResponse.json(
                 { message: "User not found", success: false },
                 { status: 404 }
             );
         }
 
-        return NextResponse.json(
-            { messages: user[0].messages },
-            { status: 200 }
-        );
+        const messages =
+            foundUser.messages?.sort(
+                (a, b) =>
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime()
+            ) || [];
+
+        return NextResponse.json({ messages, success: true }, { status: 200 });
     } catch (error) {
         console.error("Error fetching messages:", error);
         return NextResponse.json(

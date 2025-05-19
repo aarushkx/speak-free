@@ -32,8 +32,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     success: false,
-                    message:
-                        "Failed to update message acceptance status. User not found",
+                    message: "Failed to update status. User not found",
                 },
                 { status: 404 }
             );
@@ -42,17 +41,17 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 success: true,
-                message: "Message acceptance status updated successfully",
+                message: "Status updated successfully",
                 updatedUser,
             },
             { status: 200 }
         );
     } catch (error) {
-        console.error("Error updating message acceptance status:", error);
+        console.error("Error updating status:", error);
         return NextResponse.json(
             {
                 success: false,
-                message: "Error updating message acceptance status",
+                message: "Error updating status",
             },
             { status: 500 }
         );

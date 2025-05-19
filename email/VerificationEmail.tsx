@@ -43,7 +43,7 @@ const VerificationEmail = ({
             <Section style={container}>
                 <Row style={header}>
                     <Heading as="h2" style={heading}>
-                        Hello {username},
+                        Hello @{username},
                     </Heading>
                 </Row>
 
