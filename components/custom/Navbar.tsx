@@ -16,7 +16,7 @@ const Navbar = () => {
         <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
             <div className="container mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
                 <div className="flex-shrink-0">
-                    <Link href="/" className="flex items-center">
+                    <Link href="/home" className="flex items-center">
                         <h1 className="text-xl font-bold text-primary">
                             {APP_NAME}
                         </h1>
