@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
             {
                 success: true,
                 message:
-                    "User registered successfully. We have sent you an email to verify your account.",
+                    "User registered successfully. We have sent you an e-mail to verify your account.",
             },
             { status: 201 }
         );
