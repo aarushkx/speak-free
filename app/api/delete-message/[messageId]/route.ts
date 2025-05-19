@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth/next";
 import { connectToDatabase } from "@/lib/db-connect";
 import User from "@/models/user.model";
 import { User as NextAuthUser } from "next-auth";
-// import { IMessage } from "@/types";
 import { authOptions } from "../../auth/[...nextauth]/options";
 
 export async function DELETE(
