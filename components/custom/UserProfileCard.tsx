@@ -12,6 +12,7 @@ type UserProfileCardProps = {
     user: {
         _id: string;
         username: string;
+        isAcceptingMessages: boolean;
     };
 };
 
@@ -40,6 +41,18 @@ const UserProfileCard = ({ user }: UserProfileCardProps) => {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    <div className="flex items-center gap-2 text-sm">
+                        <span className="text-muted-foreground">Status:</span>
+                        <span
+                            className={
+                                user.isAcceptingMessages
+                                    ? "text-green-600"
+                                    : "text-red-600"
+                            }
+                        >
+                            {user.isAcceptingMessages ? "On" : "Off"}
+                        </span>
+                    </div>
                     <p className="text-sm text-muted-foreground">
                         Send anonymous messages and connect with @
                         {user.username}

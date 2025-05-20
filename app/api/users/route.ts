@@ -6,7 +6,10 @@ export async function GET() {
     try {
         await connectToDatabase();
 
-        const users = await User.find({ isVerified: true }, { username: 1 });
+        const users = await User.find(
+            { isVerified: true },
+            { username: 1, isAcceptingMessages: 1 }
+        );
 
         return NextResponse.json(
             {

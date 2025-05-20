@@ -27,13 +27,28 @@ const Navbar = () => {
                 <div className="flex items-center gap-2">
                     <ToggleTheme />
                     {session ? (
-                        <Button
-                            onClick={() => signOut()}
-                            variant="outline"
-                            className="text-destructive hover:bg-destructive/10"
-                        >
-                            Log out
-                        </Button>
+                        <>
+                            <Link
+                                href={
+                                    pathname === "/dashboard"
+                                        ? "/home"
+                                        : "/dashboard"
+                                }
+                            >
+                                <Button variant="outline">
+                                    {pathname === "/dashboard"
+                                        ? "Home"
+                                        : "Dashboard"}
+                                </Button>
+                            </Link>
+                            <Button
+                                onClick={() => signOut()}
+                                variant="outline"
+                                className="text-destructive hover:bg-destructive/10"
+                            >
+                                Log out
+                            </Button>
+                        </>
                     ) : pathname === "/login" ? (
                         <Link href="/register">
                             <Button variant="outline">Register</Button>
