@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { APP_NAME } from "@/lib/constants";
@@ -19,10 +19,48 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import axios, { AxiosError } from "axios";
+import { IApiResponse } from "@/types/ApiResponse";
+import { toast } from "sonner";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 const Navbar = () => {
     const pathname = usePathname();
     const { data: session } = useSession();
+
+    const [usernameInput, setUsernameInput] = useState("");
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
+    const handleLogout = () => {
+        signOut({ callbackUrl: "/" });
+        toast.success("Logged out successfully");
+    };
+
+    const deleteAccount = async () => {
+        try {
+            const response = await axios.delete<IApiResponse>(
+                "/api/delete-account"
+            );
+
+            toast.success(response.data.message);
+
+            if (response.data.success) await signOut({ callbackUrl: "/" });
+        } catch (error) {
+            const axiosError = error as AxiosError<IApiResponse>;
+            toast.error(
+                axiosError.response?.data.message ??
+                    "Failed to delete account. Please try again."
+            );
+        }
+    };
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
@@ -52,37 +90,132 @@ const Navbar = () => {
                                         : "Dashboard"}
                                 </Button>
                             </Link>
-                            <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        className="text-destructive hover:bg-destructive/10"
-                                    >
-                                        Log out
+
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" className="gap-1">
+                                        Account{" "}
+                                        <ChevronDown className="h-4 w-4" />
                                     </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>
-                                            Are you sure you want to logout?
-                                        </AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            You will need to login again to
-                                            access your account.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel>
-                                            Cancel
-                                        </AlertDialogCancel>
-                                        <AlertDialogAction
-                                            onClick={() => signOut()}
-                                        >
-                                            Confirm Logout
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <AlertDialog
+                                        open={logoutDialogOpen}
+                                        onOpenChange={setLogoutDialogOpen}
+                                    >
+                                        <AlertDialogTrigger asChild>
+                                            <DropdownMenuItem
+                                                className="text-destructive focus:text-destructive focus:bg-destructive/10"
+                                                onSelect={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                            >
+                                                Log out
+                                            </DropdownMenuItem>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Are you sure you want to
+                                                    logout?
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    You will need to login again
+                                                    to access your account.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>
+                                                    Cancel
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction
+                                                    onClick={handleLogout}
+                                                >
+                                                    Confirm Logout
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+
+                                    <AlertDialog
+                                        open={deleteDialogOpen}
+                                        onOpenChange={setDeleteDialogOpen}
+                                    >
+                                        <AlertDialogTrigger asChild>
+                                            <DropdownMenuItem
+                                                className="text-destructive focus:text-destructive focus:bg-destructive/10"
+                                                onSelect={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                            >
+                                                Delete Account
+                                            </DropdownMenuItem>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Are you sure you want to
+                                                    delete your account?
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be
+                                                    undone. This will
+                                                    permanently delete your
+                                                    account and all associated
+                                                    data.
+                                                    <br />
+                                                    To confirm, please type your
+                                                    username{" "}
+                                                    <span className="font-bold">
+                                                        {session?.user.username}
+                                                    </span>{" "}
+                                                    below.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+
+                                            <div className="my-4">
+                                                <Input
+                                                    placeholder="Type your username"
+                                                    value={usernameInput}
+                                                    onChange={(e) =>
+                                                        setUsernameInput(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                {usernameInput !==
+                                                    session?.user.username &&
+                                                    usernameInput && (
+                                                        <p className="text-sm text-destructive mt-1">
+                                                            Usernames do not
+                                                            match
+                                                        </p>
+                                                    )}
+                                            </div>
+
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel
+                                                    onClick={() =>
+                                                        setUsernameInput("")
+                                                    }
+                                                >
+                                                    Cancel
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction
+                                                    onClick={deleteAccount}
+                                                    className="bg-destructive hover:bg-destructive/90"
+                                                    disabled={
+                                                        usernameInput !==
+                                                        session?.user.username
+                                                    }
+                                                >
+                                                    Delete Account
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </>
                     ) : pathname === "/login" ? (
                         <Link href="/register">

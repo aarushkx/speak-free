@@ -16,5 +16,5 @@
 [] update readme
 
 (OPTIONAL)
-[] add delete account
+[x] add delete account
 [] clear all messages
