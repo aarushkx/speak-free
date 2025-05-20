@@ -7,6 +7,7 @@ import { signOut } from "next-auth/react";
 import { APP_NAME } from "@/lib/constants";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import ToggleTheme from "./ToggleTheme";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -23,7 +24,8 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                <div className="flex-shrink-0">
+                <div className="flex items-center gap-2">
+                    <ToggleTheme />
                     {session ? (
                         <Button
                             onClick={() => signOut()}
