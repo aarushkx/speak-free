@@ -1,7 +1,7 @@
 (CORE)
 [] user registration and verification lookup
-[] link pages in systemic way
-[] add footer
+[x] link pages in systemic way
+[x] add footer
 [x] add theme toggle
 [] add favicon
 [] add metadata
@@ -9,7 +9,8 @@
 [] add landing page
 [x] add confirmation dialog on logout
 [x] status display on home
+[x] change text selection color
 
 (OPTIONAL)
 [] add delete account
-[] clear all messages 
+[] clear all messages

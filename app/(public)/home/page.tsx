@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { UserRound, Loader2 } from "lucide-react";
+import { UserRound, Loader2, ArrowLeft } from "lucide-react";
 import UserProfileCard from "@/components/custom/UserProfileCard";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 type UserProfile = {
     _id: string;
@@ -48,6 +50,15 @@ const HomePage = () => {
 
     return (
         <div className="container mx-auto py-12 mt-10 px-16">
+            <div className="mb-6">
+                <Link href="/">
+                    <Button variant="ghost" className="gap-2">
+                        <ArrowLeft className="h-4 w-4" />
+                        Back
+                    </Button>
+                </Link>
+            </div>
+
             <div className="mb-10 text-center">
                 <motion.h1
                     className="text-2xl font-bold mb-3 text-primary"
@@ -79,7 +90,7 @@ const HomePage = () => {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {users.map((user) => (
-                        <UserProfileCard key={user._id} user={user}  />
+                        <UserProfileCard key={user._id} user={user} />
                     ))}
                 </div>
             )}
