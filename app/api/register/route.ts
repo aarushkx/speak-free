@@ -10,12 +10,9 @@ export async function POST(request: NextRequest) {
     try {
         const { username, email, password } = await request.json();
 
-        const existingVerifiedUserByUsername = await User.findOne({
-            username,
-            isVerified: true,
-        });
+        const existingUserByUsername = await User.findOne({ username });
 
-        if (existingVerifiedUserByUsername) {
+        if (existingUserByUsername) {
             return NextResponse.json(
                 {
                     success: false,
@@ -24,6 +21,21 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
+
+        // const existingVerifiedUserByUsername = await User.findOne({
+        //     username,
+        //     isVerified: true,
+        // });
+
+        // if (existingVerifiedUserByUsername) {
+        //     return NextResponse.json(
+        //         {
+        //             success: false,
+        //             message: "Username is already taken",
+        //         },
+        //         { status: 400 }
+        //     );
+        // }
 
         const existingUserByEmail = await User.findOne({ email });
 
@@ -42,6 +54,7 @@ export async function POST(request: NextRequest) {
                 );
             } else {
                 const hashedPassword = await bcrypt.hash(password, 10);
+                existingUserByEmail.username = username;
                 existingUserByEmail.password = hashedPassword;
                 existingUserByEmail.verificationCode = verificationCode;
                 existingUserByEmail.verificationCodeExpiry = new Date(
