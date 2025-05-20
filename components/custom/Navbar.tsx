@@ -1,13 +1,24 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { APP_NAME } from "@/lib/constants";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import ToggleTheme from "./ToggleTheme";
+import { Button } from "@/components/ui/button";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -41,13 +52,37 @@ const Navbar = () => {
                                         : "Dashboard"}
                                 </Button>
                             </Link>
-                            <Button
-                                onClick={() => signOut()}
-                                variant="outline"
-                                className="text-destructive hover:bg-destructive/10"
-                            >
-                                Log out
-                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        className="text-destructive hover:bg-destructive/10"
+                                    >
+                                        Log out
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Are you sure you want to logout?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            You will need to login again to
+                                            access your account.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            Cancel
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            onClick={() => signOut()}
+                                        >
+                                            Confirm Logout
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </>
                     ) : pathname === "/login" ? (
                         <Link href="/register">
