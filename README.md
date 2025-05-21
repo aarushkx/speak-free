@@ -4,7 +4,7 @@
 [x] add footer
 [x] add theme toggle
 [x] add favicon
-[] add metadata
+[x] add metadata
 [x] add 404 page
 [x] add landing page
 [x] add confirmation dialog on logout
