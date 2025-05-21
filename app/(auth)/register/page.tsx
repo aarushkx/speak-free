@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { IApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -42,6 +43,7 @@ const RegisterPage = () => {
             username: "",
             email: "",
             password: "",
+            confirmPassword: "",
         },
     });
 
@@ -55,12 +57,13 @@ const RegisterPage = () => {
         setIsSubmitting(true);
 
         try {
+            const { confirmPassword, ...registrationData } = data;
+
             const response = await axios.post<IApiResponse>(
                 "/api/register",
-                data
+                registrationData
             );
             toast.success(response.data.message);
-
             router.replace(`/verify/${username}`);
 
             setIsSubmitting(false);
@@ -102,7 +105,7 @@ const RegisterPage = () => {
     }, [debouncedUsername]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background px-4">
+        <div className="min-h-screen mt-10 flex items-center justify-center bg-background px-4">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -192,6 +195,25 @@ const RegisterPage = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Password</FormLabel>
+                                            <Input
+                                                type="password"
+                                                required
+                                                placeholder="••••••••"
+                                                {...field}
+                                            />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    name="confirmPassword"
+                                    control={register.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Confirm Password
+                                            </FormLabel>
                                             <Input
                                                 type="password"
                                                 required
