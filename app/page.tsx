@@ -90,7 +90,7 @@ const LandingPage = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center max-w-3xl space-y-6 mb-20"
                 >
-                    <h1 className="text-4xl pb-1 font-bold bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-900 to-neutral-700 dark:from-neutral-600 dark:to-white font-sans relative z-20 tracking-tight">
+                    <h1 className="text-4xl lg:text-5xl pb-1 font-bold bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-900 to-neutral-700 dark:from-neutral-600 dark:to-white font-sans relative z-20 tracking-tight">
                         <Typewriter
                             words={headings}
                             loop

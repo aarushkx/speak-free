@@ -4,7 +4,7 @@ export const APP_NAME = "SpeakFree";
 export const APP_TAGLINE = "Say It Freely";
 
 export const APP_DESCRIPTION =
-    "SpeakFree is an anonymous feedback and communication platform with integrated AI. Empower your community, team, or audience to share honest feedback, get AI-generated insights, and foster transparent growth.";
+    "Connect anonymously with complete privacy through our secure messaging platform. Send honest thoughts without revealing your identity, or create an account to receive messages in your private inbox. Experience genuine communication free from social constraints, with AI-assisted messaging to help craft the perfect words. Share feedback, express yourself, and build meaningful connections—all while maintaining your anonymity.";
 
 // AI constants
 export const SUGGESTION_MAX_TOKENS = 100;

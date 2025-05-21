@@ -18,7 +18,6 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-// TODO: Add metadata
 export const metadata: Metadata = {
     title: `${APP_NAME} \u2013 ${APP_TAGLINE}`,
     description: APP_DESCRIPTION,
