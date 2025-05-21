@@ -10,7 +10,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, RefreshCcw, Clipboard, Check } from "lucide-react";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Loader2, RefreshCcw, Clipboard, Check, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { IMessage } from "@/types";
 import { acceptMessagesSchema } from "@/schemas/accept-messages.schema";
@@ -22,12 +33,36 @@ const DashboardPage = () => {
     const user = session?.user;
 
     const [messages, setMessages] = useState<IMessage[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isDeletingAllMessages, setIsDeletingAllMessages] = useState(false);
     const [isSwitchLoading, setIsSwitchLoading] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const handleDeleteMessage = (messageId: string) => {
         setMessages(messages.filter((message) => message._id !== messageId));
+    };
+
+    const handleDeleteAllMessages = async () => {
+        try {
+            setIsDeletingAllMessages(true);
+            const response = await axios.delete<IApiResponse>(
+                "/api/delete-all-messages"
+            );
+
+            if (response.data.success) {
+                setMessages([]);
+                toast.success(response.data.message);
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            const axiosError = error as AxiosError<IApiResponse>;
+            toast.error(
+                axiosError.response?.data.message ?? "Failed to delete messages"
+            );
+        } finally {
+            setIsDeletingAllMessages(false);
+        }
     };
 
     const form = useForm({
@@ -60,7 +95,7 @@ const DashboardPage = () => {
 
     const fetchMessages = useCallback(
         async (refresh: boolean = false) => {
-            setIsLoading(true);
+            setIsRefreshing(true);
             setIsSwitchLoading(false);
 
             try {
@@ -76,11 +111,11 @@ const DashboardPage = () => {
                         "Failed to fetch messages"
                 );
             } finally {
-                setIsLoading(false);
+                setIsRefreshing(false);
                 setIsSwitchLoading(false);
             }
         },
-        [setIsLoading, setMessages]
+        [setIsRefreshing, setMessages]
     );
 
     useEffect(() => {
@@ -188,7 +223,6 @@ const DashboardPage = () => {
                                     </Button>
                                 </div>
                             </motion.div>
-
                             {/* Message Toggle Section */}
                             <motion.div
                                 initial={{ opacity: 0 }}
@@ -215,7 +249,6 @@ const DashboardPage = () => {
                                     <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
                                 )}
                             </motion.div>
-
                             <Separator className="bg-border" />
 
                             {/* Messages Section */}
@@ -229,21 +262,75 @@ const DashboardPage = () => {
                                     <h2 className="text-base font-medium text-foreground">
                                         Messages
                                     </h2>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            fetchMessages(true);
-                                        }}
-                                        className="h-8 px-2"
-                                    >
-                                        {isLoading ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <RefreshCcw className="h-4 w-4" />
-                                        )}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        {/* Delete All Button */}
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    disabled={
+                                                        messages.length === 0 ||
+                                                        isDeletingAllMessages
+                                                    }
+                                                    className="h-8 px-2"
+                                                >
+                                                    {isDeletingAllMessages ? (
+                                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                                    ) : (
+                                                        <Trash2 className="h-4 w-4" />
+                                                    )}
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>
+                                                        Are you sure you want to
+                                                        delete all messages?
+                                                    </AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This action cannot be
+                                                        undone. This will
+                                                        permanently delete all
+                                                        your messages.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>
+                                                        Cancel
+                                                    </AlertDialogCancel>
+                                                    <AlertDialogAction
+                                                        onClick={
+                                                            handleDeleteAllMessages
+                                                        }
+                                                        className="bg-destructive hover:bg-destructive/90"
+                                                    >
+                                                        {isDeletingAllMessages ? (
+                                                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                                        ) : null}
+                                                        Delete All
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                fetchMessages(true);
+                                            }}
+                                            className="h-8 px-2"
+                                            disabled={isRefreshing}
+                                        >
+                                            {isRefreshing ? (
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <RefreshCcw className="h-4 w-4" />
+                                            )}
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -17,4 +17,4 @@
 
 (OPTIONAL)
 [x] add delete account
-[] clear all messages
+[x] clear all messages
