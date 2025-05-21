@@ -29,7 +29,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Settings } from "lucide-react";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -94,8 +94,14 @@ const Navbar = () => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline" className="gap-1">
-                                        Account{" "}
-                                        <ChevronDown className="h-4 w-4" />
+                                        {/* Mobile */}
+                                        <Settings className="h-4 w-4 sm:hidden" />
+
+                                        {/* Desktop */}
+                                        <span className="hidden sm:inline-flex items-center gap-1">
+                                            Account
+                                            <ChevronDown className="h-4 w-4" />
+                                        </span>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
