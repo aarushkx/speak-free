@@ -57,7 +57,10 @@ RESEND_FROM_EMAIL=<verified_sender_email>
 
 ## 🔍 Preview
 
-![Preview Image](public/preview.png)
+![Preview 1](public/preview/image_1.png)
+![Preview 2](public/preview/image_2.png)
+![Preview 3](public/preview/image_3.png)
+![Preview 4](public/preview/image_4.png)
 
 ---
 
