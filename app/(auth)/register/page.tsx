@@ -145,7 +145,7 @@ const RegisterPage = () => {
                                             />
                                             {isCheckingUsername && (
                                                 <div className="text-sm text-muted-foreground">
-                                                    <Loader2 className="animate-spin inline mr-1" />
+                                                    <Loader2 className="animate-spin w-4 h-4 inline mr-1" />
                                                     Checking username...
                                                 </div>
                                             )}
