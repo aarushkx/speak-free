@@ -3,7 +3,7 @@
 [x] link pages in systemic way
 [x] add footer
 [x] add theme toggle
-[] add favicon
+[x] add favicon
 [] add metadata
 [x] add 404 page
 [x] add landing page
