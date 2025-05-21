@@ -6,7 +6,7 @@
 [] add favicon
 [] add metadata
 [x] add 404 page
-[] add landing page
+[x] add landing page
 [x] add confirmation dialog on logout
 [x] status display on home
 [x] change text selection color
