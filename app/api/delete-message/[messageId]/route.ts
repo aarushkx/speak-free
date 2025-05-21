@@ -7,9 +7,9 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { messageId: string } }
+    context: { params: { messageId: string } }
 ) {
-    const messageId = params.messageId;
+    const { messageId } = context.params;
     await connectToDatabase();
 
     const session = await getServerSession(authOptions);
