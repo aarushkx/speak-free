@@ -70,10 +70,11 @@ const LoginPage = () => {
                 <Card className="rounded-2xl">
                     <CardHeader className="space-y-1 text-center">
                         <h1 className="text-2xl font-bold tracking-tight">
-                            Welcome to <span>{APP_NAME}</span>
+                            Welcome Back to{" "}
+                            <span className="text-primary">{APP_NAME}</span>
                         </h1>
                         <p className="text-sm text-muted-foreground">
-                            Create an account to get started
+                            Please log in to your account
                         </p>
                     </CardHeader>
 

@@ -13,6 +13,7 @@ import {
     Sparkles,
     Circle,
     Flower,
+    ChevronRight,
 } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
 
@@ -107,7 +108,10 @@ const LandingPage = () => {
 
                     <div className="flex justify-center gap-4 pt-4">
                         <Link href="/register">
-                            <Button size="lg">Get Started</Button>
+                            <Button size="lg">
+                                Get Started
+                                <ChevronRight />
+                            </Button>
                         </Link>
                         <Link href="/home">
                             <Button variant="outline" size="lg">

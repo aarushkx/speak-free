@@ -160,208 +160,187 @@ const DashboardPage = () => {
     };
 
     return (
-        <div className="mt-10 bg-background px-4 py-12">
-            <div className="mx-auto max-w-4xl">
+        <div className="min-h-screen mt-10 bg-background px-4 py-12">
+            <div className="mx-auto max-w-5xl">
+                {/* Main Container */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
                     className="space-y-6"
                 >
-                    {/* Dashboard Header */}
+                    {/* Header */}
                     <div className="space-y-2">
-                        <motion.h1
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.1 }}
-                            className="text-2xl font-bold text-foreground"
-                        >
+                        <h1 className="text-2xl font-bold text-foreground">
                             Dashboard
-                        </motion.h1>
+                        </h1>
                         {session && (
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.2 }}
-                                className="text-muted-foreground"
-                            >
+                            <p className="text-muted-foreground">
                                 Welcome back, {user?.username || user?.email}
-                            </motion.p>
+                            </p>
                         )}
                     </div>
 
-                    {/* Main Content Card */}
-                    <Card className="border border-border rounded-lg shadow-sm">
-                        <CardContent className="space-y-6 pt-6">
-                            {/* Profile Link Section */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.3 }}
-                                className="space-y-2"
-                            >
-                                <h2 className="text-base font-medium text-foreground">
-                                    Copy Your Unique Link
-                                </h2>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        value={profileUrl}
-                                        disabled
-                                        className="w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground"
-                                    />
-                                    <Button
-                                        onClick={copyToClipboard}
-                                        className="flex gap-1 items-center"
-                                    >
-                                        {copied ? (
-                                            <Check className="h-4 w-4" />
-                                        ) : (
-                                            <Clipboard className="h-4 w-4" />
-                                        )}
-                                        {copied ? "Copied" : "Copy"}
-                                    </Button>
-                                </div>
-                            </motion.div>
-                            {/* Message Toggle Section */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
-                                className="flex items-center gap-3"
-                            >
-                                <Switch
-                                    {...register("acceptMessages")}
-                                    checked={acceptMessages}
-                                    onCheckedChange={handleSwitchChange}
-                                    disabled={isSwitchLoading}
-                                    className="data-[state=checked]:bg-primary"
-                                />
-                                <span className="text-sm text-foreground">
-                                    Accept Messages:{" "}
-                                    <span
-                                        className={`font-medium ${acceptMessages ? "text-primary" : "text-muted-foreground"}`}
-                                    >
-                                        {acceptMessages ? "On" : "Off"}
-                                    </span>
-                                </span>
-                                {isSwitchLoading && (
-                                    <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
-                                )}
-                            </motion.div>
-                            <Separator className="bg-border" />
-
-                            {/* Messages Section */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5 }}
-                                className="space-y-4"
-                            >
-                                <div className="flex items-center justify-between">
+                    {/* Card Container */}
+                    <motion.div
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <Card className="border border-border rounded-lg shadow-sm">
+                            <CardContent className="space-y-6 pt-6">
+                                {/* Profile Link Section */}
+                                <div className="space-y-2">
                                     <h2 className="text-base font-medium text-foreground">
-                                        Messages
+                                        Copy Your Unique Link
                                     </h2>
                                     <div className="flex gap-2">
-                                        {/* Delete All Button */}
-                                        <AlertDialog>
-                                            <AlertDialogTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    disabled={
-                                                        messages.length === 0 ||
-                                                        isDeletingAllMessages
-                                                    }
-                                                    className="h-8 px-2"
-                                                >
-                                                    {isDeletingAllMessages ? (
-                                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                                    ) : (
-                                                        <Trash2 className="h-4 w-4" />
-                                                    )}
-                                                </Button>
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                                <AlertDialogHeader>
-                                                    <AlertDialogTitle>
-                                                        Are you sure you want to
-                                                        delete all messages?
-                                                    </AlertDialogTitle>
-                                                    <AlertDialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete all
-                                                        your messages.
-                                                    </AlertDialogDescription>
-                                                </AlertDialogHeader>
-                                                <AlertDialogFooter>
-                                                    <AlertDialogCancel>
-                                                        Cancel
-                                                    </AlertDialogCancel>
-                                                    <AlertDialogAction
-                                                        onClick={
-                                                            handleDeleteAllMessages
-                                                        }
-                                                        className="bg-destructive hover:bg-destructive/90"
-                                                    >
-                                                        {isDeletingAllMessages ? (
-                                                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                                                        ) : null}
-                                                        Delete All
-                                                    </AlertDialogAction>
-                                                </AlertDialogFooter>
-                                            </AlertDialogContent>
-                                        </AlertDialog>
-
+                                        <input
+                                            type="text"
+                                            value={profileUrl}
+                                            disabled
+                                            className="w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground"
+                                        />
                                         <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchMessages(true);
-                                            }}
-                                            className="h-8 px-2"
-                                            disabled={isRefreshing}
+                                            onClick={copyToClipboard}
+                                            className="flex gap-1 items-center"
                                         >
-                                            {isRefreshing ? (
-                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            {copied ? (
+                                                <Check className="h-4 w-4" />
                                             ) : (
-                                                <RefreshCcw className="h-4 w-4" />
+                                                <Clipboard className="h-4 w-4" />
                                             )}
+                                            {copied ? "Copied" : "Copy"}
                                         </Button>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {messages.length > 0 ? (
-                                        messages.map((message, index) => (
-                                            <motion.div
-                                                key={message._id?.toString()}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{
-                                                    delay: 0.1 * index,
-                                                    duration: 0.3,
+                                {/* Message Toggle Section */}
+                                <div className="flex items-center gap-3">
+                                    <Switch
+                                        {...register("acceptMessages")}
+                                        checked={acceptMessages}
+                                        onCheckedChange={handleSwitchChange}
+                                        disabled={isSwitchLoading}
+                                        className="data-[state=checked]:bg-primary"
+                                    />
+                                    <span className="text-sm text-foreground">
+                                        Accept Messages:{" "}
+                                        <span
+                                            className={`font-medium ${acceptMessages ? "text-primary" : "text-muted-foreground"}`}
+                                        >
+                                            {acceptMessages ? "On" : "Off"}
+                                        </span>
+                                    </span>
+                                    {isSwitchLoading && (
+                                        <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+                                    )}
+                                </div>
+                                <Separator className="bg-border" />
+
+                                {/* Messages Section */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-base font-medium text-foreground">
+                                            Messages
+                                        </h2>
+                                        <div className="flex gap-2">
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        disabled={
+                                                            messages.length ===
+                                                                0 ||
+                                                            isDeletingAllMessages
+                                                        }
+                                                        className="h-8 px-2"
+                                                    >
+                                                        {isDeletingAllMessages ? (
+                                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                                        ) : (
+                                                            <Trash2 className="h-4 w-4" />
+                                                        )}
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Delete all messages?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This cannot be
+                                                            undone and will
+                                                            permanently delete
+                                                            all messages.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            onClick={
+                                                                handleDeleteAllMessages
+                                                            }
+                                                            className="bg-destructive hover:bg-destructive/90"
+                                                        >
+                                                            {isDeletingAllMessages ? (
+                                                                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                                            ) : null}
+                                                            Delete All
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    fetchMessages(true);
                                                 }}
+                                                className="h-8 px-2"
+                                                disabled={isRefreshing}
                                             >
+                                                {isRefreshing ? (
+                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                ) : (
+                                                    <RefreshCcw className="h-4 w-4" />
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                    {/* Messages List */}
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                                    >
+                                        {messages.length > 0 ? (
+                                            messages.map((message) => (
                                                 <MessageCard
+                                                    key={message._id?.toString()}
                                                     message={message}
                                                     onMessageDelete={
                                                         handleDeleteMessage
                                                     }
                                                 />
-                                            </motion.div>
-                                        ))
-                                    ) : (
-                                        <p className="text-sm text-muted-foreground col-span-full text-center py-8">
-                                            No messages to display.
-                                        </p>
-                                    )}
+                                            ))
+                                        ) : (
+                                            <p className="text-sm text-muted-foreground col-span-full text-center py-8">
+                                                No messages to display.
+                                            </p>
+                                        )}
+                                    </motion.div>
                                 </div>
-                            </motion.div>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
                 </motion.div>
             </div>
         </div>

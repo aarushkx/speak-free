@@ -115,10 +115,10 @@ const RegisterPage = () => {
                 <Card className="rounded-2xl">
                     <CardHeader className="space-y-1 text-center">
                         <h1 className="text-2xl font-bold tracking-tight">
-                            Join <span>{APP_NAME}</span>
+                            Create Your Account
                         </h1>
                         <p className="text-sm text-muted-foreground">
-                            Create an account to receive private messages
+                            Join our community and get started!
                         </p>
                     </CardHeader>
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, Mail, Sparkles } from "lucide-react";
+import { ArrowLeft, Loader2, Mail, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CardContent, Card } from "@/components/ui/card";
@@ -99,6 +99,15 @@ const MessagePage = () => {
                 transition={{ duration: 0.5 }}
                 className="w-full max-w-3xl mx-auto space-y-8"
             >
+                <div className="mb-6">
+                    <Link href="/home">
+                        <Button variant="ghost" className="gap-2">
+                            <ArrowLeft className="h-4 w-4" />
+                            Back
+                        </Button>
+                    </Link>
+                </div>
+
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

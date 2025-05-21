@@ -49,7 +49,7 @@ const HomePage = () => {
     }
 
     return (
-        <div className="container mx-auto py-12 mt-10 px-16">
+        <div className="container mx-auto py-12 mt-10 px-16 max-w-7xl">
             <div className="mb-6">
                 <Link href="/">
                     <Button variant="ghost" className="gap-2">
