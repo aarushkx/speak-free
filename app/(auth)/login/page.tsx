@@ -46,14 +46,14 @@ const LoginPage = () => {
             });
 
             if (result?.error) {
-                result.error === "CredentialsSignin"
-                    ? toast.error("Incorrect username or password")
-                    : toast.error(result.error);
+                if (result.error === "CredentialsSignin")
+                    toast.error("Incorrect username or password");
+                else toast.error(result.error);
             }
 
             if (result?.url) router.replace("/dashboard");
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error("An error occurred. Please try again.");
         } finally {
             setIsSubmitting(false);
         }

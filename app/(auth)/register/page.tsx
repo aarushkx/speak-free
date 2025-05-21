@@ -21,7 +21,6 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { registerSchema } from "@/schemas/register.schema";
 import { toast } from "sonner";
-import { APP_NAME } from "@/lib/constants";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
@@ -69,9 +68,7 @@ const RegisterPage = () => {
             console.error("Failed to register user:", error);
 
             const axiosError = error as AxiosError<IApiResponse>;
-
             const errorMessage = axiosError.response?.data.message;
-            ("There was a problem with your registration. Please try again.");
 
             toast.error(errorMessage);
 
