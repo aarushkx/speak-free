@@ -9,7 +9,7 @@ export async function GET() {
         const users = await User.find(
             { isVerified: true },
             { username: 1, isAcceptingMessages: 1 }
-        );
+        ).sort({ createdAt: -1 });
 
         return NextResponse.json(
             {

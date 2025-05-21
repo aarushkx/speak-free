@@ -135,6 +135,7 @@ const Navbar = () => {
                                                     Cancel
                                                 </AlertDialogCancel>
                                                 <AlertDialogAction
+                                                    className="bg-destructive hover:bg-destructive/90"
                                                     onClick={handleLogout}
                                                 >
                                                     Confirm Logout
